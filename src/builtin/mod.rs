@@ -3,6 +3,7 @@ mod float;
 mod string;
 mod char;
 mod bool;
+mod to_string;
 
 use std::sync::Arc;
 
@@ -16,6 +17,7 @@ pub use string::StringType;
 pub use char::Char;
 #[allow(unused_imports)]
 pub use bool::Bool;
+use to_string::ToString;
 
 use crate::execution::{StdFunction, StdStruct};
 
@@ -31,6 +33,7 @@ pub fn get_std_lib() -> Vec<Arc<dyn StdStruct>> {
 
 pub fn get_std_functions() -> Vec<Arc<dyn StdFunction>> {
     vec![
+        Arc::new(ToString::new()),
     ]
 }
 

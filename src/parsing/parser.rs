@@ -407,7 +407,6 @@ impl CharParser {
             }
             Rule::declaration_statement => {
                 let mut inner = pair.into_inner();
-                let type_info = Self::parse_type(inner.next().expect("Declaration type missing"));
                 let declarations = inner.next().expect("Declaration list missing");
                 
                 // Handle multiple declarations in one statement
@@ -430,7 +429,6 @@ impl CharParser {
                     }
                     
                     vars.push(VariableDecl {
-                        type_info: type_info.clone(),
                         name,
                         initializer,
                     });
@@ -467,10 +465,6 @@ impl CharParser {
 
     fn parse_function_declaration(pair: Pair<Rule>) -> Result<FunctionDecl, Box<dyn Error>> {
         let mut inner = pair.into_inner();
-        
-        // Parse return type
-        let type_pair = inner.next().ok_or("Missing return type")?;
-        let return_type = Self::parse_type(type_pair);
         
         // Parse function name
         let name = inner.next()
@@ -536,7 +530,6 @@ impl CharParser {
         };
         
         Ok(FunctionDecl {
-            return_type,
             name,
             parameters,
             body,

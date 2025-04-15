@@ -107,16 +107,11 @@ impl Program{
             return Err(format!("On variable {}: {}", variable.name, type_valid));
         } 
         let type_valid = type_valid.unwrap();
-        if type_valid.get_name() != variable.typing.name {
-            return Err(format!("On variable {}: Expected {}, got {}", variable.name, variable.typing.name, type_valid.get_name()));
-        } else{
-            let variable = Variable{
-                name: variable.name.clone(),
-                typing: variable.typing.name.clone(),
-                value: type_valid,
-            };
-            self.variables.insert(variable.name.clone(), variable);
-        }
+        let variable = Variable{
+            name: variable.name.clone(),
+            value: type_valid,
+        };
+        self.variables.insert(variable.name.clone(), variable);
         Ok(())
     }
     fn run_function(&mut self, function: &IRFunction) -> Result<(), String> {
@@ -174,6 +169,7 @@ impl Program{
         let execution_struct = Struct {
             name: ir_struct.name.clone(),
             fields,
+            value: serde_json::Value::Null,
         };
         
         // Add the struct to the program
@@ -262,6 +258,7 @@ impl Program{
                     Ok(Value::Struct(Arc::new(Struct {
                         name: name.clone(),
                         fields: field_values,
+                        value: serde_json::Value::Null,
                     })))
                 } else {
                     Err(format!("Struct type {} not found", name))
@@ -317,6 +314,7 @@ impl Program{
                             Ok(Value::Struct(Arc::new(Struct { 
                                 name: function_name.clone(),
                                 fields,
+                                value: serde_json::Value::Null,
                             })))
                         }
                         else if let Some(std_struct) = self.std_structs.get(&function_name){

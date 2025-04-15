@@ -68,7 +68,7 @@ initializer = { array_literal | expression }
 
 // Functions
 function_declaration = {
-    typing ~ identifier ~ "(" ~ parameter_list? ~ ")" ~ compound_statement ~ ";"?
+    "fn" ~ identifier ~ "(" ~ parameter_list? ~ ")" ~ compound_statement ~ ";"?
 }
 parameter_list = {
     parameter ~ ("," ~ parameter)*
@@ -114,7 +114,7 @@ return_statement = { "return" ~ expression? ~ ";" }
 break_statement = { "break" ~ ";" }
 continue_statement = { "continue" ~ ";" }
 expression_statement = { expression? ~ ";" }
-declaration_statement = { typing ~ init_declarator_list ~ ";" }
+declaration_statement = { init_declarator_list ~ ";" }
 
 // Expressions
 expression = { assignment_expression ~ ("," ~ assignment_expression)* }

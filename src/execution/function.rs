@@ -9,7 +9,6 @@ impl Function {
         for arg in args {
             program.variables.insert(arg.get_name(), super::types::Variable {
                 name: arg.get_name(),
-                typing: arg.get_name(),
                 value: arg,
             });
         }

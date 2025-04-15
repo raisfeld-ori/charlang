@@ -18,6 +18,7 @@ pub struct Function{
 pub struct Struct{
     pub name: String,
     pub fields: Vec<Input>,
+    pub value: serde_json::Value,
 }
 
 #[derive(Debug)]
@@ -72,7 +73,6 @@ impl PartialEq for Value{
 #[derive(Debug, Clone, PartialEq)]
 pub struct Variable{
     pub name: String,
-    pub typing: String,
     pub value: Value,
 }
 

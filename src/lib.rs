@@ -11,12 +11,13 @@ fn test_package() {
     let input = "
 struct Point{
     int x;
+    int y;
 }
-Point p() {
-    string x = \"Hello\";
-    return Point(x);
+fn run(int x){
+    return toString(x) + \"3\";
 }
-Point p2 = p();
+x = 2;
+x = run(x);
     ";
     let tokens = parsing::parse(input);
     if tokens.is_err(){
@@ -26,12 +27,13 @@ Point p2 = p();
     let tokens = tokens.unwrap();
     let ir = ir::IR::from_tokens(tokens);
     let mut program = execution::Program::new();
+    program.include_std_library(builtin::get_std_lib(), builtin::get_std_functions());
     let result = program.run(&ir);
     if result.is_err(){
         println!("{}", result.unwrap_err());
         return;
     }
-    println!("{:?}", program.get_variable("p2".to_string()).unwrap().value.get_value());
+    println!("{}", program.get_variable(String::from("x")).unwrap().value.get_value());
 }
 
 /// Checks if the given code is syntactically correct

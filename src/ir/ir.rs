@@ -167,7 +167,6 @@ impl IR {
     }
 
     fn from_variable(&self, variable: VariableDecl) -> Action {
-        let typing = self.from_type(variable.type_info);
         let data = match variable.initializer {
             Some(initializer) => {
                 match self.from_expression(initializer) {
@@ -181,7 +180,6 @@ impl IR {
         // Create the variable
         let ir_variable = Variable {
             name: variable.name,
-            typing,
             data,
         };
         
@@ -527,35 +525,6 @@ impl IR {
             },
             ExpressionDecl::Struct(name, fields) => {
                 self.from_expression(ExpressionDecl::Struct(name.clone(), fields))
-            },
-        }
-    }
-
-    fn from_type(&self, type_: Type) -> Typing {
-        match type_ {
-            Type::Array(base_type) => {
-                let mut array_dimensions = 1;
-                let mut current_type = *base_type;
-                while let Type::Array(next_base) = current_type {
-                    array_dimensions += 1;
-                    current_type = *next_base;
-                }
-                
-                let type_name = match current_type {
-                    Type::Struct(name) => name,
-                    _ => panic!("Unsupported base type for array"),
-                };
-                
-                Typing {
-                    name: type_name,
-                    array_dimensions,
-                }
-            },
-            Type::Struct(name) => {
-                Typing {
-                    name,
-                    array_dimensions: 0,
-                }                
             },
         }
     }

@@ -8,7 +8,7 @@ use std::sync::Arc;
 pub trait StdFunction: Debug {
     fn run(&self, program: &mut Program, args: Vec<Value>) -> Result<Value, String>;
     fn get_name(&self) -> String;
-    fn get_parameters(&self) -> Vec<Input>;
+    fn get_parameters(&self, program: &mut Program) -> Vec<Input>;
     fn new() -> Self where Self: Sized;
 }
 

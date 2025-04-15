@@ -1,10 +1,9 @@
-use super::types::{Item, Typing, VariableData};
+use super::types::{Item, VariableData};
 use super::expressions::{Expression, Operation};
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct Variable {
     pub name: String,
-    pub typing: Typing,
     pub data: VariableData
 }
 

@@ -29,7 +29,6 @@ pub struct FieldDecl {
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct FunctionDecl {
-    pub return_type: Type,
     pub name: String,
     pub parameters: Vec<Parameter>,
     pub body: Vec<Token>,
@@ -43,7 +42,6 @@ pub struct Parameter {
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct VariableDecl {
-    pub type_info: Type,
     pub name: String,
     pub initializer: Option<ExpressionDecl>,
 }
