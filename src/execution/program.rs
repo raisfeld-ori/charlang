@@ -306,10 +306,12 @@ impl Program{
                         }
                         else if let Some(struct_) = self.structs.get(&function_name){
                             let field_names: Vec<String> = struct_.fields.iter().map(|f| f.name.clone()).collect();
+                            if field_names.len() != args.len(){
+                                return Err(format!("'{}' expects {} arguments, but {} were provided", function_name, field_names.len(), args.len()));
+                            }
                             let mut fields = Vec::new();
                             for i in 0..field_names.len() {
-                                let value = self.extract_value(&VariableData::Expression(Box::new(func.args[i].clone())))?;
-                                fields.push(Input { name: field_names[i].clone(), value });
+                                fields.push(Input { name: field_names[i].clone(), value: args[i].clone() });
                             }
                             Ok(Value::Struct(Arc::new(Struct { 
                                 name: function_name.clone(),
@@ -485,6 +487,9 @@ impl Program{
                 Ok(left)
             }
             Operator::Return => {
+                Ok(left)
+            }
+            Operator::Assignment => {
                 Ok(left)
             }
             _ => Err(format!("Cannot run operation {:?}", operator)),
